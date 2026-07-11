@@ -1,15 +1,8 @@
 backend/node_modules
-backend/src
-backend/package.json
-backend/package-lock.json
-backend/tsconfig.json
-backend/.env
-frontend/src
 frontend/node_modules
+node_modules
+backend/.env
 frontend/.env
-database
-ReactNative
-.esercizi_jsx
 *.md
 .DS_Store
 .gitignore
