@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "API Rimborsi Spese",
+    "description": "API collection per la gestione delle richieste di rimborso spese aziendali",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Nome\": \"Test\",\n  \"Cognome\": \"User\",\n  \"Email\": \"test@demo.com\",\n  \"Password\": \"password123\",\n  \"ConfermaPassword\": \"password123\",\n  \"Ruolo\": \"dipendente\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/utenti/register",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "utenti", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login (dipendente)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Email\": \"mario.rossi@azienda.com\",\n  \"Password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/utenti/login",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "utenti", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login (admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Email\": \"laura.bianchi@azienda.com\",\n  \"Password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/utenti/login",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "utenti", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categorie",
+      "item": [
+        {
+          "name": "Elenco categorie",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/categorie-spesa",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "categorie-spesa"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Richieste di rimborso",
+      "item": [
+        {
+          "name": "Elenco richieste (dipendente)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi"]
+            }
+          }
+        },
+        {
+          "name": "Elenco richieste (admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi"]
+            }
+          }
+        },
+        {
+          "name": "Elenco con filtri",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi?stato=In attesa&categoriaId=1&mese=2026-05",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi"],
+              "query": [
+                { "key": "stato", "value": "In attesa" },
+                { "key": "categoriaId", "value": "1" },
+                { "key": "mese", "value": "2026-05" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Dettaglio richiesta",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi/1",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi", "1"]
+            }
+          }
+        },
+        {
+          "name": "Crea richiesta",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"DataSpesa\": \"2026-07-10\",\n  \"CategoriaID\": 1,\n  \"Importo\": 100.00,\n  \"Descrizione\": \"Trasferta a Bologna\",\n  \"RiferimentoGiustificativo\": \"scontrino.pdf\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi"]
+            }
+          }
+        },
+        {
+          "name": "Modifica richiesta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"DataSpesa\": \"2026-07-10\",\n  \"CategoriaID\": 2,\n  \"Importo\": 120.00,\n  \"Descrizione\": \"Trasferta a Bologna aggiornata\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi/1",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi", "1"]
+            }
+          }
+        },
+        {
+          "name": "Elimina richiesta",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi/1",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi", "1"]
+            }
+          }
+        },
+        {
+          "name": "Approva richiesta",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi/1/approva",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi", "1", "approva"]
+            }
+          }
+        },
+        {
+          "name": "Rifiuta richiesta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Motivazione\": \"Giustificativo non valido\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi/1/rifiuta",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi", "1", "rifiuta"]
+            }
+          }
+        },
+        {
+          "name": "Liquida richiesta",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/rimborsi/1/liquida",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "rimborsi", "1", "liquida"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Statistiche",
+      "item": [
+        {
+          "name": "Statistiche rimborsi",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "http://localhost:3001/api/statistiche/rimborsi?mese=2026-05&categoriaId=1&dipendenteId=1",
+              "host": ["http://localhost:3001"],
+              "path": ["api", "statistiche", "rimborsi"],
+              "query": [
+                { "key": "mese", "value": "2026-05" },
+                { "key": "categoriaId", "value": "1" },
+                { "key": "dipendenteId", "value": "1" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "inserisci_il_token_qui"
+    }
+  ]
+}
