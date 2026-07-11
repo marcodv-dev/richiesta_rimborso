@@ -1,57 +1,74 @@
-# Template Progetto CSR Full-Stack
+# Gestione Richieste Rimborso Spese Aziendali
 
-## Struttura
+Full-stack app per gestire richieste di rimborso spese (dipendenti + amministrativi).
 
-```
-progetto_template/
-├── backend/          # Express + TypeScript + MySQL
-│   ├── src/
-│   │   ├── config/database.ts    # Pool di connessione MySQL
-│   │   ├── middleware/auth.ts     # JWT: authenticate + requireRole
-│   │   ├── routes/auth.ts         # Registrazione e Login (COMPLETO)
-│   │   ├── routes/template-crud.ts # Template per route CRUD
-│   │   ├── server.ts              # Entry point Express
-│   │   └── seed.ts                # Script di inizializzazione DB
-│   ├── .env, package.json, tsconfig.json
-├── frontend/         # React 19 + Vite 8 + TypeScript
-│   ├── src/
-│   │   ├── context/AuthContext.tsx  # Stato autenticazione
-│   │   ├── components/Navbar.tsx    # Navigazione
-│   │   ├── pages/Login.tsx          # Pagina login (COMPLETO)
-│   │   ├── pages/Register.tsx       # Pagina registrazione (COMPLETO)
-│   │   ├── services/api.ts          # Axios + interceptors
-│   │   ├── App.tsx                  # Routing + auth guard
-│   │   └── App.css                  # Design system completo
-│   ├── index.html, package.json, vite.config.ts
-├── database/schema.sql              # Schema DB (placeholder)
-└── postman_collection.json          # Collection Postman (placeholder)
-```
+## Stack
 
-## Cosa è già pronto
+- **Frontend**: React 19 + Vite 8 + TypeScript
+- **Backend**: Express + TypeScript
+- **Database**: MySQL (mysql2)
 
-- **Autenticazione completa** (register + login) backend e frontend
-- **Middleware JWT** con `authenticate` e `requireRole(role)`
-- **Design system** CSS completo (dark theme purple-pink)
-- **Routing** con `ProtectedRoute` e gestione ruoli
-- **Servizio API** con Axios e interceptors
-- **Pool di connessione** MySQL
-
-## Cosa va implementato
-
-Cercare i commenti `TODO:` nei file per sapere cosa implementare in base al documento d'esame.
-
-## Come avviare
+## Avvio locale
 
 ```bash
 # Backend
 cd backend
 npm install
-# Modificare .env con le proprie credenziali MySQL
-npm run seed    # Crea tabelle e dati iniziali
-npm run dev     # Avvia su porta 3001
+# Modifica backend/.env con le tue credenziali MySQL
+npm run seed    # Crea DB e dati di test
+npm run dev     # Porta 3001 (o successiva se occupata)
 
 # Frontend
 cd frontend
 npm install
-npm run dev     # Avvia su porta 5173 (proxy API -> 3001)
+npm run dev     # Porta 5173 (o successiva se occupata)
 ```
+
+## Credenziali test (password: password123)
+
+| Email | Ruolo |
+|-------|-------|
+| mario.rossi@azienda.com | Dipendente |
+| giuseppe.verdi@azienda.com | Dipendente |
+| laura.bianchi@azienda.com | Responsabile amministrativo |
+
+## Deploy gratis (senza carta di credito)
+
+### 1. Database → TiDB Serverless
+1. Iscriviti su https://tidbcloud.com (no carta)
+2. Crea cluster, scegli la tier **Serverless** (5GB gratis)
+3. In `Connect` → `Connect with JDBC` copia la connection string
+4. Usala per popolare le env var del backend
+
+### 2. Backend → Koyeb
+1. Iscriviti su https://koyeb.com (no carta)
+2. Crea **Web Service** → collega GitHub repo `richiesta_rimborso`
+3. Directory: `backend`
+4. Build: `npm run build`
+5. Start command: `npm start`
+6. **Environment variables** (da TiDB):
+   - `PORT=3001`
+   - `DB_HOST=...`
+   - `DB_USER=...`
+   - `DB_PASSWORD=...`
+   - `DB_NAME=rimborsi_spese`
+   - `JWT_SECRET=cambia-questo-valore`
+7. Deploy → ottieni URL tipo `https://tuo-backend.koyeb.app`
+
+### 3. Frontend → Vercel (o Netlify)
+1. Iscriviti su https://vercel.com (no carta)
+2. Crea **New Project** → importa GitHub repo
+3. Root: `frontend`
+4. **Environment variable**: `VITE_API_URL=https://tuo-backend.koyeb.app`
+5. Deploy → ottieni URL tipo `https://richiesta-rimborso.vercel.app`
+
+### 4. Seeding del DB remoto
+```bash
+cd backend
+# Modifica .env con le credenziali TiDB (invece di localhost)
+npm run seed
+```
+
+## API
+
+Documentazione Postman: `postman_collection.json`
